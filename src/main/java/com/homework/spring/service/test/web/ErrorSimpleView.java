@@ -20,7 +20,13 @@ public class ErrorSimpleView implements Serializable {
     private String message;
 
     ErrorSimpleView(Exception e) {
-        this.code = e instanceof SQLException ? ((SQLException) e).getSQLState() : null;
+        if(e instanceof SQLException) {
+            this.code = ((SQLException) e).getSQLState();
+        } else if(e instanceof NoSuchCurrencyException) {
+            this.code = ((NoSuchCurrencyException) e).getCode();
+        } else {
+            this.code = null;
+        }
         this.message = e.getMessage();
     }
 
