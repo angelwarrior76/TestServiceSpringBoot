@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import javax.validation.constraints.NotEmpty;
-
 @Entity
 @Table(name = "rates")
 @IdClass(RateId.class)
@@ -24,27 +22,24 @@ public class Rate implements Serializable {
     private int cdate;
 
     @Id
-    @Column(name = "code", insertable = false, updatable = false)
-    private int code;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code")
     private Currency currency;
 
     @Column(name = "buy")
-    @NotEmpty(message = "*Please provide buy rate")
     private double buy;
 
     @Column(name = "sell")
-    @NotEmpty(message = "*Please provide sell rate")
     private double sell;
 
     protected Rate() {
+        super();
     }
 
-    public Rate(int cdate, Currency currency, double buy, double sell) {
+    public Rate(int cdate, int code, double buy, double sell) {
+        super();
         this.cdate = cdate;
-        this.currency = currency;
+        this.currency = Currency.valueOf(code);
         this.buy = buy;
         this.sell = sell;
     }
@@ -62,20 +57,12 @@ public class Rate implements Serializable {
         this.cdate = cdate;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setCurrency(int code) {
+        this.currency = Currency.valueOf(code);
     }
 
     public double getBuy() {
@@ -92,6 +79,40 @@ public class Rate implements Serializable {
 
     public void setSell(double sell) {
         this.sell = sell;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + this.cdate;
+        hash = 37 * hash + (this.currency != null ? this.currency.hashCode() : 0);
+        hash = 37 * hash + Double.valueOf(this.buy).hashCode();
+        hash = 37 * hash + Double.valueOf(this.sell).hashCode();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Rate other = (Rate) obj;
+        if (this.cdate != other.cdate) {
+            return false;
+        }
+        if (this.currency != other.currency && (this.currency == null || !this.currency.equals(other.currency))) {
+            return false;
+        }
+        if (this.buy != other.buy) {
+            return false;
+        }
+        if (this.sell != other.sell) {
+            return false;
+        }
+        return true;
     }
 
 }
