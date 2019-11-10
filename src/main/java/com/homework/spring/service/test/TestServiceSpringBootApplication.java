@@ -28,7 +28,7 @@ public class TestServiceSpringBootApplication {
         final EmbeddedPostgres postgres = new EmbeddedPostgres(V9_6);
         // predefined data directory
         // final EmbeddedPostgres postgres = new EmbeddedPostgres(V9_6, "/path/to/predefined/data/directory");
-        final String url = postgres.start("127.0.0.1", 5432, "rates", "pguser", "pguser");
+        final String url = postgres.start("127.0.0.1", 5433, "rates", "pguser", "pguser");
         // connecting to a running Postgres and feeding up the database
         final Connection con = DriverManager.getConnection(url);
         con.createStatement().execute("create table currencies (\n" +
