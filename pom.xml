@@ -12,7 +12,7 @@
         <project.build.branchVersion>1.0</project.build.branchVersion>
         <project.build.type>SNAPSHOT</project.build.type>
         <spring.version>5.2.3.RELEASE</spring.version>
-        <spring.boot.version>2.0.1.RELEASE</spring.boot.version>
+        <spring.boot.version>2.5.12</spring.boot.version>
         <java.version>1.8</java.version>
         <surfire.version>2.20</surfire.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
